@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthPredict AI | Patient Health Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="[fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap)" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">🏥</span>
+                <span class="logo-text">HealthPredict<span class="logo-ai">AI</span></span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active" data-section="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-section="add-patient">Add Patient</a>
+                <a href="#" class="nav-link" data-section="about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h1>Patient Records</h1>
+                    <p class="subtitle">Manage and monitor patient health data with AI-powered insights</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">👥</span>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-patients">0</span>
+                            <span class="stat-label">Total Patients</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">✅</span>
+                        <div class="stat-info">
+                            <span class="stat-value" id="healthy-count">0</span>
+                            <span class="stat-label">Healthy</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">⚠️</span>
+                        <div class="stat-info">
+                            <span class="stat-value" id="risk-count">0</span>
+                            <span class="stat-label">At Risk</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>All Patients</h2>
+                        <button class="btn btn-primary" onclick="showSection('add-patient')">
+                            + Add New Patient
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>DOB</th>
+                                <th>Email</th>
+                                <th>Glucose</th>
+                                <th>Hb</th>
+                                <th>Cholesterol</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patients-table-body">
+                            <tr>
+                                <td colspan="8" class="empty-state">Loading patients...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Add/Edit Patient Section -->
+            <section id="add-patient" class="section">
+                <div class="section-header">
+                    <h1 id="form-title">Add New Patient</h1>
+                    <p class="subtitle">Enter patient details and blood test results for AI health analysis</p>
+                </div>
+
+                <div class="form-container">
+                    <form id="patient-form" class="patient-form">
+                        <input type="hidden" id="patient-id" value="">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="full_name">Full Name *</label>
+                                <input type="text" id="full_name" name="full_name"
+                                       placeholder="Enter patient's full name" required>
+                                <span class="error-message" id="full_name-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date_of_birth">Date of Birth *</label>
+                                <input type="date" id="date_of_birth" name="date_of_birth" required>
+                                <span class="error-message" id="date_of_birth-error"></span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email"
+                                       placeholder="patient@example.com" required>
+                                <span class="error-message" id="email-error"></span>
+                            </div>
+                        </div>
+
+                        <h3 class="form-section-title">Blood Test Results</h3>
+
+                        <div class="form-grid three-col">
+                            <div class="form-group">
+                                <label for="glucose">Glucose (mg/dL) *</label>
+                                <input type="number" id="glucose" name="glucose"
+                                       placeholder="70-100" step="0.1" min="0" max="1000" required>
+                                <span class="hint">Normal: 70-100 mg/dL (fasting)</span>
+                                <span class="error-message" id="glucose-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="haemoglobin">Haemoglobin (g/dL) *</label>
+                                <input type="number" id="haemoglobin" name="haemoglobin"
+                                       placeholder="12-17" step="0.1" min="0" max="30" required>
+                                <span class="hint">Normal: 12-17 g/dL</span>
+                                <span class="error-message" id="haemoglobin-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cholesterol">Cholesterol (mg/dL) *</label>
+                                <input type="number" id="cholesterol" name="cholesterol"
+                                       placeholder="<200" step="0.1" min="0" max="1000" required>
+                                <span class="hint">Normal: &lt;200 mg/dL</span>
+                                <span class="error-message" id="cholesterol-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                <span class="btn-text">Save & Analyze</span>
+                                <span class="btn-loading" style="display: none;">Analyzing...</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="section">
+                <div class="section-header">
+                    <h1>About HealthPredict AI</h1>
+                    <p class="subtitle">AI-powered health risk assessment from blood test results</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3>🔬 How It Works</h3>
+                        <p>Our system analyzes patient blood test results (glucose, haemoglobin, and cholesterol levels) using advanced AI models to predict potential health risks and provide actionable insights.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>🤖 AI Technology</h3>
+                        <p>We use state-of-the-art natural language processing models from Hugging Face to classify health conditions based on clinical data patterns.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>⚠️ Disclaimer</h3>
+                        <p>This tool is for educational and screening purposes only. Always consult qualified healthcare professionals for medical diagnoses and treatment decisions.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Patient Details Modal -->
+    <div id="patient-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-patient-name">Patient Details</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 HealthPredict AI. Built for educational purposes.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
