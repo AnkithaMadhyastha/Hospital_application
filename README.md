@@ -4,7 +4,7 @@
 
 HealthPredict AI is a web-based healthcare application developed using **Python Flask** and **SQLite**. The system allows users to manage patient records and perform AI-powered health risk assessments based on blood test results.
 
-The application analyzes **Glucose**, **Haemoglobin**, and **Cholesterol** values and generates health recommendations through an intelligent health analysis module.
+The application analyzes Glucose, Haemoglobin, and Cholesterol values and generates AI-powered health assessments using the Google Gemini AI API. Based on the patient's blood test values, the system provides personalized health analysis, identifies potential health risks, and offers professional recommendations.
 
 ---
 
@@ -28,10 +28,12 @@ The application analyzes **Glucose**, **Haemoglobin**, and **Cholesterol** value
 
 ### AI Health Analysis
 
-- Health Risk Prediction
-- Healthy / At Risk Classification
-- Personalized Health Recommendations
-- Automated Remarks Generation
+- Google Gemini AI Integration
+- AI-Powered Health Assessment
+- Blood Test Analysis
+- Possible Health Risk Identification
+- Personalized Medical Recommendations
+- Healthy / Monitor / At Risk Classification
 
 ### Data Validation
 
@@ -66,9 +68,11 @@ The application analyzes **Glucose**, **Haemoglobin**, and **Cholesterol** value
 - JavaScript
 - Bootstrap
 
+
 ### AI Module
 
-- Rule-Based Health Prediction
+- Google Gemini AI API
+- Google GenAI SDK
 
 ---
 
@@ -133,10 +137,19 @@ http://127.0.0.1:5000
 
 ## Future Enhancements
 
-- External AI/Health API Integration
 - Machine Learning Model
 - Authentication System
 - PDF Report Generation
 - Cloud Deployment
 
 ---
+## Project Highlights
+
+- Flask REST API
+- SQLite Database
+- Google Gemini AI Integration
+- Responsive UI
+- CRUD Operations
+- Input Validation
+- AI-generated Health Assessment
+- Real-time Dashboard Statistics
