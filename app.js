@@ -101,13 +101,42 @@ function renderPatientsTable() {
 }
 
 function getHealthStatus(patient) {
-    const remarks = patient.remarks || '';
-    if (remarks.includes('🔴') || remarks.includes('multiple') || remarks.includes('High')) {
-        return { class: 'danger', text: 'At Risk', icon: '⚠️' };
-    } else if (remarks.includes('⚠️') || remarks.includes('Elevated') || remarks.includes('Borderline')) {
-        return { class: 'warning', text: 'Monitor', icon: '⚡' };
+
+    const glucose = parseFloat(patient.glucose);
+    const hb = parseFloat(patient.haemoglobin);
+    const cholesterol = parseFloat(patient.cholesterol);
+
+    // High Risk
+    if (
+        glucose > 125 ||
+        hb < 12 ||
+        cholesterol >= 240
+    ) {
+        return {
+            class: "danger",
+            text: "At Risk",
+            icon: "⚠️"
+        };
     }
-    return { class: 'healthy', text: 'Healthy', icon: '✓' };
+
+    // Monitor
+    if (
+        glucose > 100 ||
+        cholesterol >= 200
+    ) {
+        return {
+            class: "warning",
+            text: "Monitor",
+            icon: "⚡"
+        };
+    }
+
+    // Healthy
+    return {
+        class: "healthy",
+        text: "Healthy",
+        icon: "✅"
+    };
 }
 
 function updateStats() {
@@ -365,12 +394,12 @@ function escapeHtml(text) {
 
 function formatDate(dateStr) {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 }
+
 
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
